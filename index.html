@@ -19,9 +19,11 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <script type="text/babel">
-      function SaveBtn() {
+      function Btn({ text, changeValue }) {
+        console.log(text, "Was render");
         return (
           <button
+            onClick={changeValue}
             style={{
               backgroundColor: "tomato",
               color: "white",
@@ -30,18 +32,24 @@
               borderRadius: "10px",
             }}
           >
-            Save Changes{" "}
+            {text}
           </button>
         );
       }
+      const MemorizedBtn = React.memo(Btn);
       function ConfirmBtn() {
         return <button>Confirm</button>;
       }
       function App() {
+        const [value, setValue] = React.useState("Save Change");
+        const changeValue = () => {
+          setValue("Revert Changes");
+        };
         return (
           <div>
-            <SaveBtn />
-            <ConfirmBtn />
+            <MemorizedBtn text={value} changeValue={changeValue} />
+            <MemorizedBtn text="Countinue" />
+            <MemorizedBtn text="EDU" />
           </div>
         );
       }
